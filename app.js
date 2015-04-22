@@ -35,6 +35,12 @@ app.get('/cities', function(req, res){
 
 app.post('/cities', urlencode, function(req, res){
 	var newCity = req.body;
+
+	if (!newCity.name || !newCity.description){
+		res.sendStatus(400);
+		return false;
+	}
+
 	client.hset('cities', newCity.name, newCity.description, function(err){
 		if (err) throw err;
 		res.status(201).json(newCity.name);
